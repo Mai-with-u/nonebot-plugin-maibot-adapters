@@ -1,4 +1,4 @@
-from nonebot import logger
+from nonebot import get_plugin_config, logger
 from nonebot.adapters.onebot.v11 import (
     Bot,
     MessageEvent,
@@ -22,7 +22,7 @@ import base64
 
 
 
-config = Config()
+config = get_plugin_config(Config)
 
 # 定义日志配置
 

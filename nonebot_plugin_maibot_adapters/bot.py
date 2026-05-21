@@ -1,4 +1,4 @@
-from nonebot import get_plugin_config, logger
+﻿from nonebot import get_plugin_config, logger
 from nonebot.adapters.onebot.v11 import (
     Bot,
     MessageEvent,
@@ -23,6 +23,11 @@ import base64
 
 
 config = get_plugin_config(Config)
+
+def is_group_allowed(group_id) -> bool:
+    if len(config.allow_group_list) == 0:
+        return True
+    return str(group_id) in {str(item) for item in config.allow_group_list}
 
 # 定义日志配置
 
@@ -72,7 +77,7 @@ class ChatBot:
         else:
             #白名单处理逻辑
             if len(config.allow_group_list) != 0 :
-                if event.group_id not in config.allow_group_list:
+                if not is_group_allowed(event.group_id):
                     return
 
             user_info = UserInfo(
@@ -135,7 +140,7 @@ class ChatBot:
         self.bot = bot  # 更新 bot 实例
             #白名单处理逻辑
         if len(config.allow_group_list) != 0 :
-            if event.group_id not in config.allow_group_list:
+            if not is_group_allowed(event.group_id):
                 return
 
         message_content = ""
@@ -195,7 +200,7 @@ class ChatBot:
 
             #白名单处理逻辑
             if len(config.allow_group_list) != 0 :
-                if event.group_id not in config.allow_group_list:
+                if not is_group_allowed(event.group_id):
                     return
 
             nickname = (await bot.get_login_info())["nickname"]
@@ -266,7 +271,7 @@ class ChatBot:
         
         #白名单处理逻辑
         if len(config.allow_group_list) != 0 :
-            if event.group_id not in config.allow_group_list:
+            if not is_group_allowed(event.group_id):
                 return
 
 
@@ -374,7 +379,7 @@ class ChatBot:
         else:
             #白名单处理逻辑
             if len(config.allow_group_list) != 0 :
-                if event.group_id not in config.allow_group_list:
+                if not is_group_allowed(event.group_id):
                     return
 
             user_info = UserInfo(
@@ -417,7 +422,7 @@ class ChatBot:
 
         #白名单处理逻辑
         if len(config.allow_group_list) != 0 :
-            if event.group_id not in config.allow_group_list:
+            if not is_group_allowed(event.group_id):
                 return
 
 
